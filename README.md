@@ -1,6 +1,6 @@
 # color_text_highlighter
 
-A new Flutter project.
+A Flutter project that allow the user to select, copy and set highlight different color in a text.
 
 ## Getting Started
 
