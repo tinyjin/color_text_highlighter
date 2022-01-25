@@ -1,6 +1,7 @@
 class HighlightedList {
   String highlightedText;
   String colour;
+  int id;
 
-  HighlightedList(this.highlightedText, this.colour);
+  HighlightedList(this.id,this.highlightedText, this.colour);
 }
