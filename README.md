@@ -1,6 +1,9 @@
 # color_text_highlighter
 
-A Flutter project that allow the user to select, copy and set highlight different color in a text.
+This is a fork of [selectable_text_highlighter](https://pub.dev/packages/selectable_text_highlighter)
+
+This package makes it easy for you to select and highlight HTML with inline CSS Content. You can also add other toolbars like Select All, Delete, Search and Copy. This package allows you to highlight text in multiple color text.
+
 
 ## Getting Started
 
