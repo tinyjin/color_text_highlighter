@@ -1,4 +1,4 @@
-import 'package:color_text_highlighter/highligthedclass.dart';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:simple_html_css/simple_html_css.dart';
@@ -157,3 +157,11 @@ class _HighlighterState extends State<Highlighter> {
     return articleTextLevel1;
   }
 }
+
+class HighlightedList {
+  String highlightedText;
+  String colour;
+  int id;
+  HighlightedList(this.id, this.highlightedText, this.colour);
+}
+

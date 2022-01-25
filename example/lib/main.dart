@@ -1,6 +1,9 @@
+
 import 'package:color_text_highlighter/highlighter.dart';
 import 'package:color_text_highlighter/highligthedclass.dart';
 import 'package:flutter/material.dart';
+
+
 
 void main() {
   runApp(const MyApp());
