@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:simple_html_css/simple_html_css.dart';
@@ -8,7 +7,6 @@ import 'highligthedclass.dart';
 
 typedef OnHighlightedCallback = void Function(
     List<HighlightedList> updatedHighlightedOffsetsList);
-
 
 class Highlighter extends StatefulWidget {
   final String textData;

@@ -1,3 +1,7 @@
-## 1.0.0+1
+## 1.0.0+3
 
-* A new flutter package
+* Update ReadMe file inserting video.
+
+## 1.0.0+4
+
+* Update Doc API

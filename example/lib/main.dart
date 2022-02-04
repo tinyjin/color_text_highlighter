@@ -1,9 +1,6 @@
-
 import 'package:color_text_highlighter/highlighter.dart';
 import 'package:color_text_highlighter/highligthedclass.dart';
 import 'package:flutter/material.dart';
-
-
 
 void main() {
   runApp(const MyApp());
@@ -132,24 +129,6 @@ class _TextHighlighterState extends State<TextHighlighter> {
                             ),
                           ],
                         ));
-                    // return Row(
-                    //   children: [
-                    //       Container(
-                    //       height: 100,
-                    //       width: 7,
-                    //       decoration: BoxDecoration(
-                    //           borderRadius: BorderRadius.circular(0),
-                    //           color: Color(int.parse("0xff${offsetsCase[index].colour}"))),
-                    //     ),
-
-                    //     Flexible(
-                    //       child: Padding(
-                    //         padding: const EdgeInsets.all(8.0),
-                    //         child: Text(offsetsCase[index].highlightedText),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // );
                   },
                 )
         ],
