@@ -11,7 +11,8 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  simple_html_css: ^3.0.1+1
+  simple_html_css:
+    git: https://github.com/tinyjin/simple_html_css_flutter
   text_selection_controls:
     git: https://github.com/tinyjin/flutter_text_selection_controls
   fluttertoast: ^8.0.8
