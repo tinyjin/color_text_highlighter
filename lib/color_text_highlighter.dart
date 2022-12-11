@@ -6,17 +6,22 @@ import 'package:text_selection_controls/text_selection_controls.dart';
 typedef OnHighlightedCallback = void Function(
     List<HighlightedList> updatedHighlightedOffsetsList);
 
+typedef OnTabCallback = void Function(
+    String text);
+
 class Highlighter extends StatefulWidget {
   final String textData;
   final TextStyle? textStyle;
   final List<HighlightedList>? preHighlightedTexts;
   final OnHighlightedCallback? onHighlightedCallback;
+  final OnTabCallback? onTabCallback;
   const Highlighter(
       {Key? key,
       required this.textData,
       this.textStyle,
       this.preHighlightedTexts,
-      this.onHighlightedCallback})
+      this.onHighlightedCallback,
+      this.onTabCallback})
       : super(key: key);
 
   @override
@@ -50,6 +55,12 @@ class _HighlighterState extends State<Highlighter> {
               color: Colors.black,
               decoration: TextDecoration.none),
         },
+        tabCallback: (text) {
+          bool isContained = offsets.where((element) => element.highlightedText == text).isNotEmpty;
+          if (isContained && widget.onTabCallback != null) {
+            widget.onTabCallback!(text);
+          }
+        }
       ),
       selectionControls:
           FlutterSelectionControls(horizontalPadding: 5, toolBarItems: [
