@@ -8,11 +8,13 @@ typedef OnHighlightedCallback = void Function(
 
 class Highlighter extends StatefulWidget {
   final String textData;
+  final TextStyle? textStyle;
   final List<HighlightedList>? preHighlightedTexts;
   final OnHighlightedCallback? onHighlightedCallback;
   const Highlighter(
       {Key? key,
       required this.textData,
+      this.textStyle,
       this.preHighlightedTexts,
       this.onHighlightedCallback})
       : super(key: key);
@@ -37,7 +39,7 @@ class _HighlighterState extends State<Highlighter> {
       HTML.toTextSpan(
         context,
         checker(),
-        defaultTextStyle: const TextStyle(fontSize: 16),
+        defaultTextStyle: widget.textStyle ?? const TextStyle(fontSize: 16),
         overrideStyle: <String, TextStyle>{
           'body': const TextStyle(fontSize: 16),
           'p': const TextStyle(
