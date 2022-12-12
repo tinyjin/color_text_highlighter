@@ -13,11 +13,13 @@ class Highlighter extends StatefulWidget {
   final String textData;
   final TextStyle? textStyle;
   final List<HighlightedList> preHighlightedTexts;
+  final List<String> colorStrings;
   final OnHighlightedCallback? onHighlightedCallback;
   final OnTabCallback? onTabCallback;
   const Highlighter(
       {Key? key,
       required this.textData,
+      required this.colorStrings,
       this.textStyle,
       required this.preHighlightedTexts,
       this.onHighlightedCallback,
@@ -62,102 +64,57 @@ class _HighlighterState extends State<Highlighter> {
           }
         }
       ),
-      selectionControls:
-          FlutterSelectionControls(horizontalPadding: 5, toolBarItems: [
-        ToolBarItem(
-            item: const Icon(
-              Icons.circle,
-              color: Color(0xffB6B725),
-              size: 28,
-            ),
-            onItemPressed:
-                (String highlightedText, int startIndex, int endIndex) {
-              setState(() {
-                for (int x = 0; x < widget.preHighlightedTexts.length; x++) {
-                  if (widget.preHighlightedTexts[x].highlightedText == highlightedText) {
-                    widget.preHighlightedTexts.removeAt(x);
+      selectionControls: FlutterSelectionControls(
+          horizontalPadding: 5,
+          toolBarItems:
+          widget.colorStrings.map((e) => ToolBarItem(
+              item: Icon(
+                Icons.circle,
+                color: Color(int.parse('0xff${e}')),
+                size: 28,
+              ),
+              onItemPressed:
+                  (String highlightedText, int startIndex, int endIndex) {
+                setState(() {
+                  for (int x = 0; x < widget.preHighlightedTexts.length; x++) {
+                    if (widget.preHighlightedTexts[x].highlightedText == highlightedText) {
+                      widget.preHighlightedTexts.removeAt(x);
+                    }
+                    if (widget.preHighlightedTexts[x].highlightedText.contains(highlightedText)) {
+                      Fluttertoast.showToast(
+                          msg:
+                          "You can't highlight already highlighted words bug",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.black87,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    }
                   }
-                  if (widget.preHighlightedTexts[x].highlightedText.contains(highlightedText)) {
-                    Fluttertoast.showToast(
-                        msg:
-                            "You can't highlight already highlighted words bug",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.black87,
-                        textColor: Colors.white,
-                        fontSize: 16.0);
-                  }
-                }
-              });
-              if (widget.onHighlightedCallback != null) {
-                var offset = HighlightedList(
-                  widget.preHighlightedTexts.length,
-                  highlightedText,
-                  "B6B725",
-                );
+                });
+                if (widget.onHighlightedCallback != null) {
+                  var offset = HighlightedList(
+                    widget.preHighlightedTexts.length,
+                    highlightedText,
+                    e,
+                  );
 
-                widget.onHighlightedCallback!(offset);
-              }
-            }),
-        ToolBarItem(
-            item: const Icon(
-              Icons.circle,
-              color: Color(0xfff48989),
-              size: 28,
-            ),
-            onItemPressed:
-                (String highlightedText, int startIndex, int endIndex) {
-              setState(() {
-                for (int x = 0; x < widget.preHighlightedTexts.length; x++) {
-                  if (widget.preHighlightedTexts[x].highlightedText == highlightedText) {
-                    widget.preHighlightedTexts.removeAt(x);
-                  }
+                  widget.onHighlightedCallback!(offset);
                 }
-              });
-              if (widget.onHighlightedCallback != null) {
-                var offset = HighlightedList(
-                  widget.preHighlightedTexts.length,
-                  highlightedText,
-                  "f48989",
-                );
+              })).toList() + [
 
-                widget.onHighlightedCallback!(offset);
-              }
-            }),
-        ToolBarItem(
-            item: const Icon(
-              Icons.circle,
-              color: Color(0xffa1e0d9),
-              size: 28,
-            ),
-            onItemPressed:
-                (String highlightedText, int startIndex, int endIndex) {
-              setState(() {
-                for (int x = 0; x < widget.preHighlightedTexts.length; x++) {
-                  if (widget.preHighlightedTexts[x].highlightedText == highlightedText) {
-                    widget.preHighlightedTexts.removeAt(x);
-                  }
+            ToolBarItem(
+                item: const Icon(
+                  Icons.copy,
+                  size: 28,
+                ),
+                onItemPressed: (String highlightedText, int startIndex, int endIndex) {
+
                 }
-              });
-              if (widget.onHighlightedCallback != null) {
-                var offset = HighlightedList(
-                  widget.preHighlightedTexts.length,
-                  highlightedText,
-                  "a1e0d9",
-                );
-
-                widget.onHighlightedCallback!(offset);
-              }
-            }),
-        ToolBarItem(
-            item: const Icon(
-              Icons.copy,
-              size: 28,
-            ),
-            onItemPressed:
-                (String highlightedText, int startIndex, int endIndex) {}),
-      ]),
+            )
+          ]
+      ),
     );
   }
 
