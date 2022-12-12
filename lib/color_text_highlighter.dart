@@ -4,22 +4,30 @@ import 'package:simple_html_css/simple_html_css.dart';
 import 'package:text_selection_controls/text_selection_controls.dart';
 
 typedef OnHighlightedCallback = void Function(
-    HighlightedList updatedHighlightedOffsetsList);
+    HighlightedList updatedHighlightedOffsetsList
+);
 
 typedef OnTabCallback = void Function(
-    String text);
+    String text
+);
+
+typedef OnItemTabCallback = void Function(
+    String highlightedText, int startIndex, int endIndex
+);
 
 class Highlighter extends StatefulWidget {
   final String textData;
   final TextStyle? textStyle;
   final List<HighlightedList> preHighlightedTexts;
   final List<String> colorStrings;
+  final List<ToolItem>? toolItems;
   final OnHighlightedCallback? onHighlightedCallback;
   final OnTabCallback? onTabCallback;
   const Highlighter(
       {Key? key,
       required this.textData,
       required this.colorStrings,
+      this.toolItems,
       this.textStyle,
       required this.preHighlightedTexts,
       this.onHighlightedCallback,
@@ -102,18 +110,15 @@ class _HighlighterState extends State<Highlighter> {
 
                   widget.onHighlightedCallback!(offset);
                 }
-              })).toList() + [
-
-            ToolBarItem(
-                item: const Icon(
-                  Icons.copy,
+              })).toList() + (widget.toolItems ?? []).map((e) => (
+              ToolBarItem(
+                item: Icon(
+                  e.icon,
                   size: 28,
                 ),
-                onItemPressed: (String highlightedText, int startIndex, int endIndex) {
-
-                }
-            )
-          ]
+                onItemPressed: e.callback,
+              )
+            )).toList()
       ),
     );
   }
@@ -136,4 +141,10 @@ class HighlightedList {
   String colour;
   int id;
   HighlightedList(this.id, this.highlightedText, this.colour);
+}
+
+class ToolItem {
+  IconData icon;
+  OnItemTabCallback callback;
+  ToolItem(this.icon, this.callback);
 }
