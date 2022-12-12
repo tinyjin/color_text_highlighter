@@ -4,7 +4,7 @@ import 'package:simple_html_css/simple_html_css.dart';
 import 'package:text_selection_controls/text_selection_controls.dart';
 
 typedef OnHighlightedCallback = void Function(
-    List<HighlightedList> updatedHighlightedOffsetsList);
+    HighlightedList updatedHighlightedOffsetsList);
 
 typedef OnTabCallback = void Function(
     String text);
@@ -12,14 +12,14 @@ typedef OnTabCallback = void Function(
 class Highlighter extends StatefulWidget {
   final String textData;
   final TextStyle? textStyle;
-  final List<HighlightedList>? preHighlightedTexts;
+  final List<HighlightedList> preHighlightedTexts;
   final OnHighlightedCallback? onHighlightedCallback;
   final OnTabCallback? onTabCallback;
   const Highlighter(
       {Key? key,
       required this.textData,
       this.textStyle,
-      this.preHighlightedTexts,
+      required this.preHighlightedTexts,
       this.onHighlightedCallback,
       this.onTabCallback})
       : super(key: key);
@@ -29,12 +29,12 @@ class Highlighter extends StatefulWidget {
 }
 
 class _HighlighterState extends State<Highlighter> {
-  List<HighlightedList> offsets = [];
+  // List<HighlightedList> widget.preHighlightedTexts = [];
   String formattedText = "";
 
   @override
   void initState() {
-    offsets = widget.preHighlightedTexts ?? offsets;
+    // widget.preHighlightedTexts = widget.preHighlightedTexts ?? widget.preHighlightedTexts;
     super.initState();
   }
 
@@ -56,7 +56,7 @@ class _HighlighterState extends State<Highlighter> {
               decoration: TextDecoration.none),
         },
         tabCallback: (text) {
-          bool isContained = offsets.where((element) => element.highlightedText == text).isNotEmpty;
+          bool isContained = widget.preHighlightedTexts.where((element) => element.highlightedText == text).isNotEmpty;
           if (isContained && widget.onTabCallback != null) {
             widget.onTabCallback!(text);
           }
@@ -73,11 +73,11 @@ class _HighlighterState extends State<Highlighter> {
             onItemPressed:
                 (String highlightedText, int startIndex, int endIndex) {
               setState(() {
-                for (int x = 0; x < offsets.length; x++) {
-                  if (offsets[x].highlightedText == highlightedText) {
-                    offsets.removeAt(x);
+                for (int x = 0; x < widget.preHighlightedTexts.length; x++) {
+                  if (widget.preHighlightedTexts[x].highlightedText == highlightedText) {
+                    widget.preHighlightedTexts.removeAt(x);
                   }
-                  if (offsets[x].highlightedText.contains(highlightedText)) {
+                  if (widget.preHighlightedTexts[x].highlightedText.contains(highlightedText)) {
                     Fluttertoast.showToast(
                         msg:
                             "You can't highlight already highlighted words bug",
@@ -89,12 +89,16 @@ class _HighlighterState extends State<Highlighter> {
                         fontSize: 16.0);
                   }
                 }
-                offsets.add(HighlightedList(
-                  offsets.length,
+              });
+              if (widget.onHighlightedCallback != null) {
+                var offset = HighlightedList(
+                  widget.preHighlightedTexts.length,
                   highlightedText,
                   "B6B725",
-                ));
-              });
+                );
+
+                widget.onHighlightedCallback!(offset);
+              }
             }),
         ToolBarItem(
             item: const Icon(
@@ -105,20 +109,20 @@ class _HighlighterState extends State<Highlighter> {
             onItemPressed:
                 (String highlightedText, int startIndex, int endIndex) {
               setState(() {
-                for (int x = 0; x < offsets.length; x++) {
-                  if (offsets[x].highlightedText == highlightedText) {
-                    offsets.removeAt(x);
+                for (int x = 0; x < widget.preHighlightedTexts.length; x++) {
+                  if (widget.preHighlightedTexts[x].highlightedText == highlightedText) {
+                    widget.preHighlightedTexts.removeAt(x);
                   }
                 }
-
-                offsets.add(HighlightedList(
-                  offsets.length,
-                  highlightedText,
-                  "f48989",
-                ));
               });
               if (widget.onHighlightedCallback != null) {
-                widget.onHighlightedCallback!(offsets);
+                var offset = HighlightedList(
+                  widget.preHighlightedTexts.length,
+                  highlightedText,
+                  "f48989",
+                );
+
+                widget.onHighlightedCallback!(offset);
               }
             }),
         ToolBarItem(
@@ -130,19 +134,20 @@ class _HighlighterState extends State<Highlighter> {
             onItemPressed:
                 (String highlightedText, int startIndex, int endIndex) {
               setState(() {
-                for (int x = 0; x < offsets.length; x++) {
-                  if (offsets[x].highlightedText == highlightedText) {
-                    offsets.removeAt(x);
+                for (int x = 0; x < widget.preHighlightedTexts.length; x++) {
+                  if (widget.preHighlightedTexts[x].highlightedText == highlightedText) {
+                    widget.preHighlightedTexts.removeAt(x);
                   }
                 }
-                offsets.add(HighlightedList(
-                  offsets.length,
-                  highlightedText,
-                  "a1e0d9",
-                ));
               });
               if (widget.onHighlightedCallback != null) {
-                widget.onHighlightedCallback!(offsets);
+                var offset = HighlightedList(
+                  widget.preHighlightedTexts.length,
+                  highlightedText,
+                  "a1e0d9",
+                );
+
+                widget.onHighlightedCallback!(offset);
               }
             }),
         ToolBarItem(
@@ -160,10 +165,10 @@ class _HighlighterState extends State<Highlighter> {
     String articleTextLevel1 = "";
     articleTextLevel1 = widget.textData;
 
-    for (int x = 0; x < offsets.length; x++) {
+    for (int x = 0; x < widget.preHighlightedTexts.length; x++) {
       articleTextLevel1 = articleTextLevel1.replaceAll(
-          offsets[x].highlightedText,
-          "<annotation style='background-color:#${offsets[x].colour};'>${offsets[x].highlightedText}</annotation>");
+          widget.preHighlightedTexts[x].highlightedText,
+          "<annotation style='background-color:#${widget.preHighlightedTexts[x].colour};'>${widget.preHighlightedTexts[x].highlightedText}</annotation>");
     }
     return articleTextLevel1;
   }
